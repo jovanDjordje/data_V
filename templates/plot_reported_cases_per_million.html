@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .error {
+        color: red;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega-lite@4.8.1"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega-embed@6"></script>
+</head>
+<body >
+  <div id="vis" ></div>
+  <form action="javascript:ref()" id="country-form">
+    
+    <div id="nemo" style="background-color: lightblue;">
+    <label >
+      Enter start date:
+      <input id= "start_date" type="date" name="start_day" min="2020-03-01" max="2021-11-16">
+    </label>
+    <label >
+      Enter end date:
+      <input id= "end_date" type="date" name="end_day" min="2020-03-02" max="2021-11-16">
+    </label>
+    <button type="submit" style="height:30px;width:75px; 
+    background-color:#fdfdfd; border-color: rgb(3, 29, 34); border-width: 2px; padding: 5px; border-radius: 5px;">Refresh</button>
+    <br />
+  </div>
+    {% for country in countries %}
+    <input type="checkbox" name="{{ country }}" value="{{ country }}"  />
+    <label for="{{ country }}">{{ country }}</label>
+    <br />
+    {% endfor %}
+    <button type="submit">Refresh</button>
+  </form>
+  <script >
+    async function ref() {
+      console.log("button pressed");
+      var selected = [];
+        for (checkbox of document
+          .getElementById("country-form")
+          .querySelectorAll("input[type=checkbox]")) {
+          if (checkbox.checked) {
+            selected.push(checkbox.value);
+          }
+        }
+      var s_date = document.getElementById("start_date")
+      
+      var e_date = document.getElementById("end_date")
+      var countryParam = "?country=" + encodeURIComponent(selected.join(","));
+      
+      begining_date = "&start=" + encodeURIComponent(s_date.value)
+      end_date = "&end=" + encodeURIComponent(e_date.value)
+      var response = await fetch("/plot.json" + countryParam + begining_date + end_date);
+      
+      var spec = await response.json();
+      console.log(spec);
+
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div class="error" style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    }
+    ref();
+
+
+  </script>
+</body>
+</html> 
