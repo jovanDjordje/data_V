@@ -1,6 +1,6 @@
-# Assignment 6
+# web programming and data analysis
 
-This is web programming and data analysis assignment in subject IN3110 fall 2021.
+This is web programming and data analysis assignment.
 
 ## Dependencies
 
@@ -32,15 +32,8 @@ And Altair viewer
 In case that instalation doesn't work try instaling using
 ``` python3 -m pip install <library>```
 
-## Missing functionality
 
-Tasks 6.4(not mandatory), 6.5, 6.6 and 6.7. are not implemented. This is purely because I had to prioritize other subjects. I find this assignment really interesting and useful and I am definitely going to revise the tasks at a later occasion.
-
-Worth mentioning here is that I use somewhat old data set. Its from 16. November. 
-My code does not download the code online. Data set file is contained within the assignment folder.
-
-
-## Task 6.1
+## Task 1
 
 Reading data from the csv file and generating a labled plot of Daily new confirmed Covid-19 cases
 pre million people by date.
@@ -53,7 +46,7 @@ run the script with:
 python3 webvisualization_plots.py
 ```
 
-## Task 6.2/6.3
+## Task 2,3
 
 Generating an interactive web page where a visitor is able to pick a country (please do not pick more than 5), start and end date and get an updated "Daily new confirmed Covid-19 cases
 pre million people by date" plot displayed on the web page.
